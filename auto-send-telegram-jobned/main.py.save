@@ -1,0 +1,80 @@
+from trello import TrelloClient
+import json
+import time
+import datetime
+import html2text
+import urllib3
+import requests
+
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+client = TrelloClient(
+    api_key='28fdee5204411c1755ca3d9af7d6b8f1',
+    api_secret='55cbdf2e1711f7fc5ea7c11e7256452083f5103555756089668edc824ab55cf9')
+list_id = "60bf76695ae9cf573cbc94f4" # List Freelance
+######
+
+def add_new_card(name_card, desc_card):
+    list_freelance = client.get_list(list_id)
+    list_freelance.add_card(name_card, desc=desc_card)
+
+
+def parse_html():
+    count = 0
+    while True:
+        count += 1
+        cook = {'PHPSESSID': 'qtsh37au0lejjl43r3qb73k53q', 'lang':'ru'}
+        header = {'Host':'jobned.com',
+                  'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0',
+                  'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8', 'Accept-Language': 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3',
+                  'Accept-Encoding':'gzip, deflate, br',
+                  'DNT':'1',
+                  'Alt-Used': 'jobned.com',
+                  'Connection':'keep-alive',
+                  'Upgrade-Insecure-Requests':'1',
+                  'Cache-Control': 'max-age=0',
+                  'TE':'Trailers'
+                 }
+        try:
+            r = requests.get("https://jobned.com/components/list_load.php", cookies=cook, headers=header, verify=False, timeout=30)
+            
+if count > 1:
+                data_new = r.json()
+                if data == data_new:
+                    print("одинаковые", count)
+                else:
+                    print("есть различия")
+                    for i in data_new:
+                        if i in data:
+                            pass
+                        else:
+                            send_test(i)
+
+                    data = r.json()
+            else:
+                data = r.json()
+                print("New Page")
+            time.sleep(4)
+        except:
+            print("error")
+            time.sleep(4)
+
+
+def send_test(i):
+    date_now = datetime.datetime.now()
+    date_now = str(date_now.strftime("%d.%m.%y %H:%M:%S"))
+    desc = html2text.html2text(i[4]['text'])
+    print(i[5]['price'])
+    if int(i[5]['price']) == 0:
+        price = 'по договоренности'
+    else:
+        price = i[5]['price']
+    msg = "🔹 Описание:\n{}\n🔹 Цена: {}\n🔹 Время: {}\n🔹 Биржа и категория: {} | {}\n🔹 Ссылка: {}".format(desc, price, date_now, i[20]['b_name'], i[21]['cats'], i[2]['link'])
+    add_new_card(i[1]['name'], msg)
+    print("new card create")
+    print(i)
+
+
+if __name__ == '__main__':
+    parse_html()
