@@ -1,4 +1,4 @@
-py-trello
 html2text
 urllib3
 requests
+pyTelegramBotAPI
