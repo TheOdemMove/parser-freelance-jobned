@@ -1,6 +1,6 @@
 import datetime
-import time
 import re
+import time
 import html2text
 import requests
 import telebot
@@ -8,7 +8,10 @@ import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 bot = telebot.TeleBot('610361295:AAFmhfsnFGF2rJTUxL15m05UXJZBIhAl-eA')
-filter = ['bot', 'telegram', 'python', 'django', 'flask', 'вёрстка', 'c++', 'программу', 'бот', 'телеграм', 'вайбер', 'рассылка', 'arduino', 'deploy', 'автоматизация', 'скрипт', 'mysql', 'base', 'база даных', 'парсер', 'парсинг']
+filter = [' bot ', 'telegram', 'python', 'django', 'flask', 'вёрстка', 'c++', 'программу', ' бот ', 'телеграм', 'вайбер',
+          'рассылка', 'arduino', 'deploy', 'автоматизация', 'скрипт', 'mysql', 'base', 'база даных', 'парсер',
+          'парсинг', ' телега ', 'питон']
+
 
 ######
 
@@ -63,7 +66,7 @@ def send_test(i):
     desc = html2text.html2text(i['text'])
 
     for poisk in filter:
-        if poisk in desc.lower():
+        if poisk in desc.lower() and 'freelancehunt' in str(i['b_name']).lower():
             print("Знайшли слова з вашого фільтру: {}".format(poisk))
             if 'за домовленістю' in str(i['price_text']):
                 price = 'за домовленістю'
@@ -110,11 +113,12 @@ def send_test(i):
 
             llink = 'https://jobned.com/redirect/' + str(i['id'])
             namecard = head + ' | ' + str(i['name'])
-            msg = "🔹 Описание:\n{}\n🔹 Цена: {}\n🔹 Время: {}\n🔹 Биржа и категория: {} | {}\n🔹 Ссылка: {}".format(desc, price, date_now, i['b_name'],i['cats'],llink)
+            msg = "🔹 Описание:\n{}\n🔹 Цена: {}\n🔹 Время: {}\n🔹 Биржа и категория: {} | {}\n🔹 Ссылка: {}".format(
+                desc, price, date_now, i['b_name'], i['cats'], llink)
             send_new_card(namecard, msg)
             break
         else:
-            #print("Слова з вашого фільтру не співпадають, пропускаємо це завдання...")
+            # print("Слова з вашого фільтру не співпадають, пропускаємо це завдання...")
             pass
     # print(i)
 
