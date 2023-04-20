@@ -7,7 +7,7 @@ import telebot
 import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-bot = telebot.TeleBot('610361295:AAFmhfsnFGF2rJTUxL15m05UXJZBIhAl-eA')
+bot = telebot.TeleBot('xxxxxxxx')
 filter = [' bot ', 'telegram', 'python', 'django', 'flask', 'вёрстка', 'c++', 'программу', ' бот ', 'телеграм', 'вайбер',
           'рассылка', 'arduino', 'deploy', 'автоматизация', 'скрипт', 'mysql', 'base', 'база даных', 'парсер',
           'парсинг', ' телега ', 'питон']
